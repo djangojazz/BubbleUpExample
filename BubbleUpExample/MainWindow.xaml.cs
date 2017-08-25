@@ -23,6 +23,7 @@ namespace BubbleUpExample
     public MainWindow()
     {
       InitializeComponent();
+      DataContext = new MainViewModel();
     }
   }
 }

@@ -24,7 +24,7 @@ namespace BubbleUpExample.ViewModel
 
     public void AddRowExecute()
     {
-      FakeRepo.Instance.AddToTrans(4, "D");
+      FakeRepo.Instance.AddToTrans(Trans.Last().TransactionId + 1, "D", 100);
       Trans.ClearAndAddRange(FakeRepo.Instance.Trans);
     }
 
@@ -35,18 +35,23 @@ namespace BubbleUpExample.ViewModel
       if (e?.OldItems != null)
       {
         //((List<object>)e?.OldItems).ForEach(arg => ((INotifyPropertyChanged)arg).PropertyChanged -= CascadeEvent);
-        foreach (var arg in e?.OldItems) { ((INotifyPropertyChanged)arg).PropertyChanged -= CascadeEvent; base.OnPropertyChanged(arg.ToString()); }
+        foreach (var arg in e?.OldItems) { ((INotifyPropertyChanged)arg).PropertyChanged -= CascadeEvent; base.OnPropertyChanged(arg.ToString()); Bubble(arg.ToString()); }
       }
 
       if (e?.NewItems != null)
       {
-        foreach (var arg in e?.NewItems) { ((INotifyPropertyChanged)arg).PropertyChanged += CascadeEvent; base.OnPropertyChanged(arg.ToString()); }
+        foreach (var arg in e?.NewItems) { ((INotifyPropertyChanged)arg).PropertyChanged += CascadeEvent; base.OnPropertyChanged(arg.ToString()); Bubble(arg.ToString()); }
       }
     }
 
     private void CascadeEvent(object sender, PropertyChangedEventArgs e)
     {
-      OnPropertyChanged(e.PropertyName);
+      base.OnPropertyChanged(e.PropertyName);
+    }
+
+    private void Bubble(string item)
+    {
+      base.OnPropertyChanged(item);
     }
   }
 }

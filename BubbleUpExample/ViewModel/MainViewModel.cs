@@ -11,23 +11,13 @@ namespace BubbleUpExample
   { 
     public MainViewModel()
     {
-
-
-      //InstanceConverter = new InstanceInSetToStringConverter();
-      //LocationCollection = new ObservableCollectionContentNotifying<DemandLocation>();
-      //ChartData = new ObservableCollectionContentNotifying<PlotTrend>();
-
-      //LocationCollection.ClearAndAddRange(Selects.GetDemandLocations().Take(5));
-      //var locs = new List<int> { 18, 55 };
-      //locs.ForEach(x => LocationCollection.Single(y => y.LocationID == x).IsUsed = true);
-      //UpdateHeader();
-      //SelectedItem = TrendChoices.FiscalPeriod;
-      //UpdateChartData();
-      //LocationCollection.OnCollectionItemChanged += UpdateHeader;
     }
-    
-    
-    
+
+    protected override void OnPropertyChanged(String info)
+    {
+      Count = FakeRepo.Instance.Trans.Count; 
+    }
+
     private int count;
     public int Count
     {

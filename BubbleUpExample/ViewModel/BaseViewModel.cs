@@ -12,10 +12,15 @@ namespace BubbleUpExample
     #region INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
 
-    protected void OnPropertyChanged(String info)
+    protected virtual void OnPropertyChanged(string propertyName)
     {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-    }                                               
+      PropertyChangedEventHandler handler = this.PropertyChanged;
+      if (handler != null)
+      {
+        var e = new PropertyChangedEventArgs(propertyName);
+        handler(this, e);
+      }
+    }
     #endregion
   }
 }                                                                
