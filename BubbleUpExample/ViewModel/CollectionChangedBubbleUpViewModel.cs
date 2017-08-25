@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace BubbleUpExample.ViewModel
 {
@@ -17,26 +18,29 @@ namespace BubbleUpExample.ViewModel
       Trans.CollectionChanged += ModifyCollectionsBindings;
     }
 
-    public ObservableCollection<DummyTransaction> Trans { get; set; }
+    RelayCommand _addRow;
+
+    public ICommand AddRow { get => (_addRow == null) ? _addRow = new RelayCommand(param => AddRowExecute()) : _addRow; }
+
+    public void AddRowExecute()
+    {
+      FakeRepo.Instance.AddToTrans(4, "D");
+      Trans.ClearAndAddRange(FakeRepo.Instance.Trans);
+    }
+
+    public ObservableCollection<DummyTransaction> Trans { get; }
 
     private void ModifyCollectionsBindings(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
       if (e?.OldItems != null)
       {
-        foreach (var arg in e?.OldItems)
-        {
-          ((INotifyPropertyChanged)arg).PropertyChanged -= CascadeEvent;
-          base.OnPropertyChanged(arg.ToString());
-        }
+        //((List<object>)e?.OldItems).ForEach(arg => ((INotifyPropertyChanged)arg).PropertyChanged -= CascadeEvent);
+        foreach (var arg in e?.OldItems) { ((INotifyPropertyChanged)arg).PropertyChanged -= CascadeEvent; base.OnPropertyChanged(arg.ToString()); }
       }
 
       if (e?.NewItems != null)
       {
-        foreach (var arg in e?.NewItems)
-        {
-          ((INotifyPropertyChanged)arg).PropertyChanged += CascadeEvent;
-          base.OnPropertyChanged(arg.ToString());
-        }
+        foreach (var arg in e?.NewItems) { ((INotifyPropertyChanged)arg).PropertyChanged += CascadeEvent; base.OnPropertyChanged(arg.ToString()); }
       }
     }
 

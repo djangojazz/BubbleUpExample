@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BubbleUpExample
 {
-  public sealed class DummyTransaction
+  public sealed class DummyTransaction : BaseViewModel
   {
     public DummyTransaction(int id, string desc)
     {
