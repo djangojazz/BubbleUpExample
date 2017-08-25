@@ -15,7 +15,6 @@ namespace BubbleUpExample.ViewModel
     public CollectionChangedBubbleUpViewModel()
     {
       Trans = new ObservableCollection<DummyTransaction>(FakeRepo.Instance.Trans);
-      Trans.CollectionChanged += ModifyCollectionsBindings;
     }
 
     RelayCommand _addRow;
@@ -29,29 +28,5 @@ namespace BubbleUpExample.ViewModel
     }
 
     public ObservableCollection<DummyTransaction> Trans { get; }
-
-    private void ModifyCollectionsBindings(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-      if (e?.OldItems != null)
-      {
-        //((List<object>)e?.OldItems).ForEach(arg => ((INotifyPropertyChanged)arg).PropertyChanged -= CascadeEvent);
-        foreach (var arg in e?.OldItems) { ((INotifyPropertyChanged)arg).PropertyChanged -= CascadeEvent; base.OnPropertyChanged(arg.ToString()); Bubble(arg.ToString()); }
-      }
-
-      if (e?.NewItems != null)
-      {
-        foreach (var arg in e?.NewItems) { ((INotifyPropertyChanged)arg).PropertyChanged += CascadeEvent; base.OnPropertyChanged(arg.ToString()); Bubble(arg.ToString()); }
-      }
-    }
-
-    private void CascadeEvent(object sender, PropertyChangedEventArgs e)
-    {
-      base.OnPropertyChanged(e.PropertyName);
-    }
-
-    private void Bubble(string item)
-    {
-      base.OnPropertyChanged(item);
-    }
   }
 }

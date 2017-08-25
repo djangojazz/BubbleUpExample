@@ -25,6 +25,11 @@ namespace BubbleUpExample
       set
       {
         _amount = value;
+        if (FakeRepo.Instance != null)
+        {
+          FakeRepo.Instance.UpdateTotals();
+          base.OnPropertyChanged("Trans");
+        }
         OnPropertyChanged(nameof(Amount));
       }
     }
