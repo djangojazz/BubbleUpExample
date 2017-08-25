@@ -14,5 +14,14 @@ namespace BubbleUpExample
         input.Add(o);
       }
     }
+
+    public static void ClearAndAddRange<T>(this ObservableCollectionContentNotifying<T> input, IEnumerable<T> array)
+    {
+      if (input == null) return;
+      input.SuspendNotification = true;
+      input.Clear();
+      foreach (var x in array) input.Add(x);
+      input.SuspendNotification = false;
+    }
   }
 }

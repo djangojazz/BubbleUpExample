@@ -14,7 +14,8 @@ namespace BubbleUpExample.ViewModel
   {
     public CollectionChangedBubbleUpViewModel()
     {
-      Trans = new ObservableCollection<DummyTransaction>(FakeRepo.Instance.Trans);
+      Trans = new ItemObservableCollection<DummyTransaction>();
+      Trans.ClearAndAddRange(FakeRepo.Instance.Trans);
     }
 
     RelayCommand _addRow;
@@ -27,6 +28,11 @@ namespace BubbleUpExample.ViewModel
       Trans.ClearAndAddRange(FakeRepo.Instance.Trans);
     }
 
-    public ObservableCollection<DummyTransaction> Trans { get; }
+    public ItemObservableCollection<DummyTransaction> Trans { get; }
+
+    protected override void OnPropertyChanged(string propertyName)
+    {
+      base.OnPropertyChanged(propertyName);
+    }
   }
 }

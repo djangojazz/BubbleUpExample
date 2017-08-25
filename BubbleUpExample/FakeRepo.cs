@@ -40,6 +40,7 @@ namespace BubbleUpExample
     public void AddToTrans(int id, string desc, int amount)
     {
       Trans.Add(new DummyTransaction(id, desc, amount));
+      //UpdateTotals();
     }
   }
 }

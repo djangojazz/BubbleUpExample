@@ -21,19 +21,31 @@ namespace BubbleUpExample
 
     public int Amount
     {
-      get { return _amount; }
+      get => _amount;
       set
       {
         _amount = value;
         if (FakeRepo.Instance != null)
         {
           FakeRepo.Instance.UpdateTotals();
-          base.OnPropertyChanged("Trans");
+          OnPropertyChanged("Trans");
         }
         OnPropertyChanged(nameof(Amount));
       }
     }
 
+    private int _runningTotal;
+
     public int RunningTotal { get; set; }
+    {
+      get => _runningTotal;
+      set
+      {
+        if (value == _runningTotal)
+          return;
+        _runningTotal = value;
+        OnPropertyChanged(nameof(RunningTotal));
+      }
+    }
   }
 }
